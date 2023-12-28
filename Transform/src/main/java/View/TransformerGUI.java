@@ -14,16 +14,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * The main graphical user interface (GUI) for the Database Transformer application.
+ * Allows users to explore databases, select tables, and transform them using the Transformer program.
+ * The GUI includes a JComboBox for selecting databases, a JList for displaying tables, and a JButton for initiating table transformation.
+ *
+ * @author Fernando
+ */
 public class TransformerGUI extends JFrame {
     private JComboBox<String> databaseComboBox;
     private JList<String> tableList;
     private JButton transformButton;
-
+    
+    /**
+     * Constructs a new instance of TransformerGUI.
+     * Sets up the GUI components, initializes layouts, and configures event listeners.
+     */
     public TransformerGUI() {
         super("Database Explorer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +43,11 @@ public class TransformerGUI extends JFrame {
         pack();
         setLocationRelativeTo(null);
     }
-
+    
+    /**
+     * Initializes GUI components, such as JComboBox, JList, and JButton.
+     * Also configures event listeners for database selection and transformation button.
+     */
     private void initComponents() {
         databaseComboBox = new JComboBox<>();
         tableList = new JList<>();
@@ -47,7 +60,7 @@ public class TransformerGUI extends JFrame {
                 databaseComboBox.addItem(dbName);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error: " + e);
         }
 
         // Configurar el evento de cambio de la base de datos seleccionada
@@ -66,7 +79,10 @@ public class TransformerGUI extends JFrame {
             }
         });
     }
-
+    
+    /**
+     * Initializes the layout of the GUI, setting the layout manager and arranging components.
+     */
     private void initLayout() {
         setLayout(new BorderLayout());
 
@@ -78,7 +94,10 @@ public class TransformerGUI extends JFrame {
         add(new JScrollPane(tableList), BorderLayout.CENTER);
         add(transformButton, BorderLayout.SOUTH);
     }
-
+    
+    /**
+     * Loads table names into the JList based on the selected database.
+     */
     private void loadTableNames() {
         String selectedDatabase = (String) databaseComboBox.getSelectedItem();
         ConnectionDB.setDatabaseName(selectedDatabase);
@@ -87,23 +106,37 @@ public class TransformerGUI extends JFrame {
             List<String> tableNames = ConnectionDB.getTableNames();
             tableList.setListData(tableNames.toArray(new String[0]));
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error: " + e);
         }
     }
-
+    
+    /**
+     * Initiates the transformation process for the selected tables.
+     */
     private void transformSelectedTables() {
         List<String> selectedTables = tableList.getSelectedValuesList();
         System.out.println("Tablas Seleccionadas: " + selectedTables);
 
         // Llamar al programa Transformer con las tablas seleccionadas como parámetros
-        invokeTransformer(selectedTables);
+        callTransformer(selectedTables);
     }
-
-    private void invokeTransformer(List<String> selectedTables) {
+    
+    /**
+     * Invokes the Transformer program with the selected tables as parameters for transformation.
+     *
+     * @param selectedTables The list of selected tables for transformation.
+     */
+    private void callTransformer(List<String> selectedTables) {
         Transform transform = new Transform(ConnectionDB.getDatabaseName(),selectedTables);
         transform.executeTransformation("C:\\Users\\Fernando\\Documents\\PereiraFernando_Transform-db\\objectdb-2.8.9\\db\\points40.odb");
     }
-
+    
+    /**
+     * The main entry point for the Database Transformer application.
+     * Creates and displays an instance of the TransformerGUI.
+     *
+     * @param args Command-line arguments (not used in this application).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
