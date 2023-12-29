@@ -2,8 +2,8 @@ package Clases;
 
 // default package
 // Generated 17 dic 2023, 17:10:06 by Hibernate Tools 5.2.13.Final
-
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,50 +20,60 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "cargo", catalog = "nasa_db", uniqueConstraints = @UniqueConstraint(columnNames = "Nombre_Cargo"))
 public class Cargo implements java.io.Serializable {
 
-	private int idCargo;
-	private String nombreCargo;
-	private Set<Astronauta> astronautas = new HashSet<Astronauta>(0);
+    private int idCargo;
+    private String nombreCargo;
+    private Set<Astronauta> astronautas = new HashSet<Astronauta>(0);
 
-	public Cargo() {
-	}
+    public Cargo() {
+    }
 
-	public Cargo(int idCargo) {
-		this.idCargo = idCargo;
-	}
+    public Cargo(int idCargo) {
+        this.idCargo = idCargo;
+    }
 
-	public Cargo(int idCargo, String nombreCargo, Set<Astronauta> astronautas) {
-		this.idCargo = idCargo;
-		this.nombreCargo = nombreCargo;
-		this.astronautas = astronautas;
-	}
+    public Cargo(int idCargo, String nombreCargo, Set<Astronauta> astronautas) {
+        this.idCargo = idCargo;
+        this.nombreCargo = nombreCargo;
+        this.astronautas = astronautas;
+    }
 
-	@Id
+    public Cargo(List<Object> parametros) {
+        if (parametros.size() == 3) {
+            this.idCargo = (int) parametros.get(0);
+            this.nombreCargo = (String) parametros.get(1);
+            this.astronautas = (Set<Astronauta>) parametros.get(2);
+        } else {
+            throw new IllegalArgumentException("La lista debe contener exactamente 3 elementos.");
+        }
+    }
 
-	@Column(name = "ID_Cargo", unique = true, nullable = false)
-	public int getIdCargo() {
-		return this.idCargo;
-	}
+    @Id
 
-	public void setIdCargo(int idCargo) {
-		this.idCargo = idCargo;
-	}
+    @Column(name = "ID_Cargo", unique = true, nullable = false)
+    public int getIdCargo() {
+        return this.idCargo;
+    }
 
-	@Column(name = "Nombre_Cargo", unique = true, length = 50)
-	public String getNombreCargo() {
-		return this.nombreCargo;
-	}
+    public void setIdCargo(int idCargo) {
+        this.idCargo = idCargo;
+    }
 
-	public void setNombreCargo(String nombreCargo) {
-		this.nombreCargo = nombreCargo;
-	}
+    @Column(name = "Nombre_Cargo", unique = true, length = 50)
+    public String getNombreCargo() {
+        return this.nombreCargo;
+    }
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cargo")
-	public Set<Astronauta> getAstronautas() {
-		return this.astronautas;
-	}
+    public void setNombreCargo(String nombreCargo) {
+        this.nombreCargo = nombreCargo;
+    }
 
-	public void setAstronautas(Set<Astronauta> astronautas) {
-		this.astronautas = astronautas;
-	}
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cargo")
+    public Set<Astronauta> getAstronautas() {
+        return this.astronautas;
+    }
+
+    public void setAstronautas(Set<Astronauta> astronautas) {
+        this.astronautas = astronautas;
+    }
 
 }

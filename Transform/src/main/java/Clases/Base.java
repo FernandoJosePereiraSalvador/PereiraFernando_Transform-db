@@ -2,10 +2,10 @@ package Clases;
 
 // default package
 // Generated 17 dic 2023, 17:10:06 by Hibernate Tools 5.2.13.Final
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +35,16 @@ public class Base implements Serializable {
         this.idBase = idBase;
         this.localizacion = localizacion;
         this.nombreBase = nombreBase;
+    }
+
+    public Base(List<Object> parametros) {
+        if (parametros.size() == 3) {
+            this.idBase = (int) parametros.get(0);
+            this.localizacion = (String) parametros.get(1);
+            this.nombreBase = (String) parametros.get(2);
+        } else {
+            throw new IllegalArgumentException("La lista debe contener exactamente 3 elementos.");
+        }
     }
 
     public Base() {

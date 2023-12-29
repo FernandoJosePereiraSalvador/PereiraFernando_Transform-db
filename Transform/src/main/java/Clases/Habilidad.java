@@ -2,8 +2,8 @@ package Clases;
 
 // default package
 // Generated 17 dic 2023, 17:10:06 by Hibernate Tools 5.2.13.Final
-
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,50 +19,60 @@ import javax.persistence.Table;
 @Table(name = "habilidad", catalog = "nasa_db")
 public class Habilidad implements java.io.Serializable {
 
-	private int idHabilidad;
-	private String nombreHabilidad;
-	private Set<Astronauta> astronautas = new HashSet<Astronauta>(0);
+    private int idHabilidad;
+    private String nombreHabilidad;
+    private Set<Astronauta> astronautas = new HashSet<Astronauta>(0);
 
-	public Habilidad() {
-	}
+    public Habilidad() {
+    }
 
-	public Habilidad(int idHabilidad) {
-		this.idHabilidad = idHabilidad;
-	}
+    public Habilidad(int idHabilidad) {
+        this.idHabilidad = idHabilidad;
+    }
 
-	public Habilidad(int idHabilidad, String nombreHabilidad, Set<Astronauta> astronautas) {
-		this.idHabilidad = idHabilidad;
-		this.nombreHabilidad = nombreHabilidad;
-		this.astronautas = astronautas;
-	}
+    public Habilidad(int idHabilidad, String nombreHabilidad, Set<Astronauta> astronautas) {
+        this.idHabilidad = idHabilidad;
+        this.nombreHabilidad = nombreHabilidad;
+        this.astronautas = astronautas;
+    }
 
-	@Id
+    public Habilidad(List<Object> parametros) {
+        if (parametros.size() == 3) {
+            this.idHabilidad = (int) parametros.get(0);
+            this.nombreHabilidad = (String) parametros.get(1);
+            this.astronautas = (Set<Astronauta>) parametros.get(2);
+        } else {
+            throw new IllegalArgumentException("La lista debe contener exactamente 3 elementos.");
+        }
+    }
 
-	@Column(name = "ID_Habilidad", unique = true, nullable = false)
-	public int getIdHabilidad() {
-		return this.idHabilidad;
-	}
+    @Id
 
-	public void setIdHabilidad(int idHabilidad) {
-		this.idHabilidad = idHabilidad;
-	}
+    @Column(name = "ID_Habilidad", unique = true, nullable = false)
+    public int getIdHabilidad() {
+        return this.idHabilidad;
+    }
 
-	@Column(name = "Nombre_Habilidad")
-	public String getNombreHabilidad() {
-		return this.nombreHabilidad;
-	}
+    public void setIdHabilidad(int idHabilidad) {
+        this.idHabilidad = idHabilidad;
+    }
 
-	public void setNombreHabilidad(String nombreHabilidad) {
-		this.nombreHabilidad = nombreHabilidad;
-	}
+    @Column(name = "Nombre_Habilidad")
+    public String getNombreHabilidad() {
+        return this.nombreHabilidad;
+    }
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "habilidads")
-	public Set<Astronauta> getAstronautas() {
-		return this.astronautas;
-	}
+    public void setNombreHabilidad(String nombreHabilidad) {
+        this.nombreHabilidad = nombreHabilidad;
+    }
 
-	public void setAstronautas(Set<Astronauta> astronautas) {
-		this.astronautas = astronautas;
-	}
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "habilidads")
+    public Set<Astronauta> getAstronautas() {
+        return this.astronautas;
+    }
+
+    public void setAstronautas(Set<Astronauta> astronautas) {
+        this.astronautas = astronautas;
+    }
 
 }

@@ -4,6 +4,7 @@ package Clases;
 // Generated 17 dic 2023, 17:10:06 by Hibernate Tools 5.2.13.Final
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,16 @@ public class Nave implements Serializable {
         this.idNave = idNave;
         this.nombreNave = nombreNave;
         this.base = base;
+    }
+    
+    public Nave(List<Object> parametros) {
+        if (parametros.size() == 3) {
+            this.idNave = (int) parametros.get(0);
+            this.nombreNave = (String) parametros.get(1);
+            this.base = (Base) parametros.get(2);
+        } else {
+            throw new IllegalArgumentException("La lista debe contener exactamente 3 elementos.");
+        }
     }
 
     @Override

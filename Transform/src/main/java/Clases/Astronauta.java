@@ -2,10 +2,10 @@ package Clases;
 
 // default package
 // Generated 17 dic 2023, 17:10:06 by Hibernate Tools 5.2.13.Final
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -76,9 +76,27 @@ public class Astronauta {
         this.equipo = ID_Equipo;
         this.ID_Cargo = ID_Cargo;
     }
-    
-    public Astronauta(){
-        
+
+    public Astronauta(List<Object> parametros) {
+        if (parametros.size() == 11) {
+            this.ID_Astronauta = (int) parametros.get(0);
+            this.Nombre = (String) parametros.get(1);
+            this.Apellidos = (String) parametros.get(2);
+            this.Fecha_Nacimiento = (Date) parametros.get(3);
+            this.Fecha_Ingreso_NASA = (Date) parametros.get(4);
+            this.Sexo = (String) parametros.get(5);
+            this.Nacionalidad = (String) parametros.get(6);
+            this.Num_Vuelos_Espaciales = (int) parametros.get(7);
+            this.Horas_Espacio = (BigDecimal) parametros.get(8);
+            this.equipo = (Equipo) parametros.get(9);
+            this.ID_Cargo = (int) parametros.get(10);
+        } else {
+            throw new IllegalArgumentException("La lista debe contener exactamente 11 elementos.");
+        }
+    }
+
+    public Astronauta() {
+
     }
 
     public int getID_Astronauta() {
@@ -145,7 +163,7 @@ public class Astronauta {
         this.Num_Vuelos_Espaciales = Num_Vuelos_Espaciales;
     }
 
-    public BigDecimal  getHoras_Espacio() {
+    public BigDecimal getHoras_Espacio() {
         return Horas_Espacio;
     }
 
@@ -173,8 +191,5 @@ public class Astronauta {
     public String toString() {
         return "Astronauta{" + "ID_Astronauta=" + ID_Astronauta + ", Nombre=" + Nombre + ", Apellidos=" + Apellidos + ", Fecha_Nacimiento=" + Fecha_Nacimiento + ", Fecha_Ingreso_NASA=" + Fecha_Ingreso_NASA + ", Sexo=" + Sexo + ", Nacionalidad=" + Nacionalidad + ", Num_Vuelos_Espaciales=" + Num_Vuelos_Espaciales + ", Horas_Espacio=" + Horas_Espacio + ", equipo=" + equipo + ", ID_Cargo=" + ID_Cargo + '}';
     }
-    
-    
-    
-    
+
 }
