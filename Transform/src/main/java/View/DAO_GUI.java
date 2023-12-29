@@ -15,7 +15,7 @@ import Controller.DAO;
  *
  * @author Fernando
  */
-public class DAO2 {
+public class DAO_GUI {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
