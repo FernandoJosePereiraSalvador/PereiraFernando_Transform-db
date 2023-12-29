@@ -2,6 +2,7 @@ package Clases;
 
 // default package
 // Generated 17 dic 2023, 17:10:06 by Hibernate Tools 5.2.13.Final
+import Controller.ConnectionDB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -80,7 +81,7 @@ public class Equipo implements java.io.Serializable {
     public void setMision(int id_mision) {
         Mision mision = null;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3308/NASA_DB?useSSL=false", "root", "1234")) {
+        try (Connection connection = ConnectionDB.getConnection()) {
             String query = "SELECT m.* FROM Mision m JOIN Equipo e ON m.ID_Mision = e.ID_Mision WHERE e.ID_Equipo = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -119,7 +120,7 @@ public class Equipo implements java.io.Serializable {
     public void setAstronautas() {
         Set<Astronauta> astronautas = new HashSet<>();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3308/NASA_DB?useSSL=false", "root", "1234")) {
+        try (Connection connection = ConnectionDB.getConnection()) {
             String query = "SELECT a.* FROM Astronauta a WHERE a.ID_Equipo = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -150,7 +151,7 @@ public class Equipo implements java.io.Serializable {
     public void setNaves() {
         Set<Nave> naves = new HashSet<>();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3308/NASA_DB?useSSL=false", "root", "1234")) {
+        try (Connection connection = ConnectionDB.getConnection()) {
             String query = "SELECT n.* FROM Nave n JOIN Nave_Equipo ne ON n.ID_Nave = ne.ID_Nave WHERE ne.ID_Equipo = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
