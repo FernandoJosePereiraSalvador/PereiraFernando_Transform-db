@@ -5,13 +5,16 @@
 package View;
 
 import Clases.Astronauta;
-import java.util.List;
-import java.util.Scanner;
+import Clases.Equipo;
 import java.util.List;
 import java.util.Scanner;
 import Controller.DAO;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
+ * DAO GUI (Graphical User Interface) for interacting with a generic DAO.
+ * Allows creating, reading, updating, and deleting entities.
  *
  * @author Fernando
  */
@@ -20,85 +23,89 @@ public class DAO_GUI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingrese el nombre de la entidad (clase): ");
-        String entidadNombre = scanner.nextLine();
+        System.out.println("Enter the entity name (class): ");
+        String entityName = scanner.nextLine();
 
         // Reflection to get the entity class
-        Class<?> entidadClass;
+        Class<?> entityClass;
         try {
-            entidadClass = Class.forName(entidadNombre);
+            entityClass = Class.forName(entityName);
         } catch (ClassNotFoundException e) {
-            System.out.println("Error al cargar la clase de la entidad.");
+            System.out.println("Error loading the entity class.");
             return;
         }
 
-        DAO<?> dao = new DAO<>(entidadClass);
+        DAO<?> dao = new DAO<>(entityClass);
 
-        int opcion;
+        int option;
         do {
-            System.out.println("Seleccione una opción:");
-            System.out.println("1. Crear entidad");
-            System.out.println("2. Leer entidad por clave primaria");
-            System.out.println("3. Actualizar entidad");
-            System.out.println("4. Eliminar entidad");
-            System.out.println("5. Obtener todas las entidades");
-            System.out.println("0. Salir");
+            System.out.println("Select an option:");
+            System.out.println("1. Create entity");
+            System.out.println("2. Read entity by primary key");
+            System.out.println("3. Update entity");
+            System.out.println("4. Delete entity");
+            System.out.println("5. Get all entities");
+            System.out.println("0. Exit");
 
-            System.out.print("Ingrese el número de la opción: ");
-            opcion = scanner.nextInt();
-            scanner.nextLine(); 
+            System.out.print("Enter the option number: ");
+            option = scanner.nextInt();
+            scanner.nextLine();
 
-            switch (opcion) {
+            switch (option) {
                 case 1:
                     // Logic to create an entity
-                    Object nuevaEntidad = crearEntidad(entidadClass);
-                    //dao.create(nuevaEntidad);
-                    System.out.println("Entidad creada exitosamente.");
+                    Astronauta newAstronaut = new Astronauta(1, "John", "Doe", new Date(), new Date(), "Male",
+                            "American", 2, BigDecimal.valueOf(100), new Equipo(), 1);
+                    DAO<Astronauta> daoCreate = new DAO<>(Astronauta.class);
+                    daoCreate.create(newAstronaut);
+                    System.out.println("Entity created successfully.");
                     break;
                 case 2:
                     // Logic to read an entity by primary key
-                    System.out.print("Ingrese la clave primaria: ");
+                    System.out.print("Enter the primary key: ");
                     Object primaryKey = scanner.nextLine();
-                    Object entidadLeida = dao.read(primaryKey);
-                    System.out.println("Entidad leída: " + entidadLeida);
+                    Object readEntity = dao.read(primaryKey);
+                    System.out.println("Entity read: " + readEntity);
                     break;
                 case 3:
                     // Logic to update an entity
-                    Object entidadActualizada = crearEntidad(entidadClass);
-                    //dao.update(entidadActualizada);
-                    System.out.println("Entidad actualizada exitosamente.");
+                    Astronauta updatedAstronaut = new Astronauta(1, "John", "Doe", new Date(), new Date(), "Male",
+                            "American", 2, BigDecimal.valueOf(100), new Equipo(), 1);
+                    DAO<Astronauta> daoUpdate = new DAO<>(Astronauta.class);
+                    daoUpdate.update(updatedAstronaut);
+                    System.out.println("Entity updated successfully.");
                     break;
                 case 4:
                     // Logic to delete an entity
-                    System.out.print("Ingrese la clave primaria de la entidad a eliminar: ");
-                    Object primaryKeyEliminar = scanner.nextLine();
-                    dao.delete(primaryKeyEliminar);
-                    System.out.println("Entidad eliminada exitosamente.");
+                    System.out.print("Enter the primary key of the entity to delete: ");
+                    Object primaryKeyToDelete = scanner.nextLine();
+                    dao.delete(primaryKeyToDelete);
+                    System.out.println("Entity deleted successfully.");
                     break;
                 case 5:
                     // Logic to get all entities
-                    List<?> entidades = dao.getAll();
-                    System.out.println("Listado de entidades:");
-                    for (Object entidad : entidades) {
-                        System.out.println(entidad);
+                    List<?> entities = dao.getAll();
+                    System.out.println("List of entities:");
+                    for (Object entity : entities) {
+                        System.out.println(entity);
                     }
                     break;
                 case 0:
-                    System.out.println("Saliendo del programa. ¡Hasta luego!");
+                    System.out.println("Exiting the program. Goodbye!");
                     break;
                 default:
-                    System.out.println("Opción no válida. Intente de nuevo.");
+                    System.out.println("Invalid option. Please try again.");
                     break;
             }
 
-        } while (opcion != 0);
+        } while (option != 0);
     }
 
-    private static Object crearEntidad(Class<?> entidadClass) {
+    private static Object createEntity(Class<?> entityClass) {
         try {
-            return entidadClass.newInstance();
+            return entityClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            System.out.println("Error al crear la instancia de la entidad.");
+            System.out.println("Error creating an instance of the entity.");
             return null;
         }
     }
