@@ -9,6 +9,7 @@ package View;
  * @author Fernando
  */
 import Controller.ConnectionDB;
+import Controller.ObjectDBUtil;
 import Controller.Transform;
 import javax.swing.*;
 import java.awt.*;
@@ -128,7 +129,7 @@ public class TransformerGUI extends JFrame {
      */
     private void callTransformer(List<String> selectedTables) {
         Transform transform = new Transform(ConnectionDB.getDatabaseName(),selectedTables);
-        transform.executeTransformation("C:\\Users\\Fernando\\Documents\\PereiraFernando_Transform-db\\objectdb-2.8.9\\db\\points40.odb");
+        transform.executeTransformation(ObjectDBUtil.getDb_path());
     }
     
     /**

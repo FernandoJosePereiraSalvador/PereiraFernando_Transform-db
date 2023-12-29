@@ -20,7 +20,7 @@ public class ObjectDBUtil {
     /**
      * The name of the persistence unit, specifying the location of the ObjectDB database file.
      */
-    private static final String PERSISTENCE_UNIT_NAME = "C:\\Users\\Fernando\\Documents\\PereiraFernando_Transform-db\\objectdb-2.8.9\\db\\points40.odb";
+    private static final String db_path = "C:\\Users\\Fernando\\Documents\\PereiraFernando_Transform-db\\objectdb-2.8.9\\db\\points40.odb";
 
     /**
      * The EntityManagerFactory instance used for creating EntityManagers.
@@ -31,7 +31,7 @@ public class ObjectDBUtil {
      * Static block to initialize the EntityManagerFactory when the class is loaded.
      */
     static {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        factory = Persistence.createEntityManagerFactory(db_path);
     }
 
     /**
@@ -49,4 +49,10 @@ public class ObjectDBUtil {
     public static void closeEntityManager() {
         factory.close();
     }
+
+    public static String getDb_path() {
+        return db_path;
+    }
+    
+    
 }
